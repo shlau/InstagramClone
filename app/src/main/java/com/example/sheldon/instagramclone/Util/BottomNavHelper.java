@@ -6,12 +6,12 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.view.MenuItem;
 
-import com.example.sheldon.instagramclone.HomeActivity;
-import com.example.sheldon.instagramclone.LikesActivity;
-import com.example.sheldon.instagramclone.ProfileActivity;
+import com.example.sheldon.instagramclone.Home.HomeActivity;
+import com.example.sheldon.instagramclone.Likes.LikesActivity;
+import com.example.sheldon.instagramclone.Profile.ProfileActivity;
 import com.example.sheldon.instagramclone.R;
-import com.example.sheldon.instagramclone.SearchActivity;
-import com.example.sheldon.instagramclone.ShareActivity;
+import com.example.sheldon.instagramclone.Search.SearchActivity;
+import com.example.sheldon.instagramclone.Share.ShareActivity;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 /**
@@ -20,6 +20,10 @@ import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 public class BottomNavHelper {
 
+    /**
+     * Disable navigation bar text and animation
+     * @param navBar The navigation bar
+     */
     public static void disableAnimation(BottomNavigationViewEx navBar) {
         navBar.enableAnimation(false);
         navBar.enableItemShiftingMode(false);
@@ -27,6 +31,11 @@ public class BottomNavHelper {
         navBar.setTextVisibility(false);
     }
 
+    /**
+     * Enables navigation bar functionality by setting a menu item listener.
+     * @param context The current class associated with the activity
+     * @param navBar The navigation bar
+     */
     public static void enableNavBar(final Context context, BottomNavigationViewEx navBar) {
        navBar.setOnNavigationItemSelectedListener( new BottomNavigationView.OnNavigationItemSelectedListener()  {
 

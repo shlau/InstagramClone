@@ -1,4 +1,4 @@
-package com.example.sheldon.instagramclone;
+package com.example.sheldon.instagramclone.Likes;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,11 +8,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.example.sheldon.instagramclone.R;
 import com.example.sheldon.instagramclone.Util.BottomNavHelper;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
-public class ProfileActivity extends AppCompatActivity {
-    private static final int PROFILE_ACTIVITY = 2;
+public class LikesActivity extends AppCompatActivity {
+    private static final int LIKES_ACTIVITY = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,8 +27,7 @@ public class ProfileActivity extends AppCompatActivity {
         BottomNavHelper.disableAnimation(botNavView);
         BottomNavHelper.enableNavBar(this, botNavView);
         Menu menu = botNavView.getMenu();
-        MenuItem item = menu.getItem(PROFILE_ACTIVITY);
+        MenuItem item = menu.getItem(LIKES_ACTIVITY);
         item.setChecked(true);
-
     }
 }

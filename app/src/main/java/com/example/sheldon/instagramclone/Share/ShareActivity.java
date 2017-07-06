@@ -1,4 +1,4 @@
-package com.example.sheldon.instagramclone;
+package com.example.sheldon.instagramclone.Share;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.example.sheldon.instagramclone.R;
 import com.example.sheldon.instagramclone.Util.BottomNavHelper;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 

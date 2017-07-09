@@ -1,5 +1,6 @@
 package com.example.sheldon.instagramclone.Profile;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -8,6 +9,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.sheldon.instagramclone.R;
@@ -37,26 +40,14 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void setUpToolbar() {
-        Toolbar toolbar = (Toolbar)findViewById(R.id.profileToolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+        ImageView ellipses = (ImageView) findViewById(R.id.settingsIcon);
+        ellipses.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Log.d(TAG, "onMenuItemClicked, clicked item: " + item);
-
-                switch(item.getItemId()) {
-                    case R.id.profileMenu:
-                        Log.d(TAG, "Navigating to profile preferences");
-                }
-                return false;
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileActivity.this, AccountSettingsActivity.class);
+                startActivity(intent);
             }
         });
-
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.profile_menu, menu);
-        return true;
-    }
 }

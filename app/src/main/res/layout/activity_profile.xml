@@ -5,8 +5,24 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <include layout="@layout/layout_center_profile"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_ellipses"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:id="@+id/settingsIcon"/>
+
         <include layout="@layout/layout_bottom_nav_view"/>
+        <ProgressBar
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:id="@+id/profileProgressBar"
+            android:layout_centerHorizontal="true"/>
+
+
     </RelativeLayout>
 
 

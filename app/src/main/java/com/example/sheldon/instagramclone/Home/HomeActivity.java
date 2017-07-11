@@ -1,6 +1,5 @@
 package com.example.sheldon.instagramclone.Home;
 
-import android.graphics.drawable.Drawable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +9,7 @@ import android.view.MenuItem;
 
 import com.example.sheldon.instagramclone.R;
 import com.example.sheldon.instagramclone.Util.BottomNavHelper;
+import com.example.sheldon.instagramclone.Util.SectionPagerAdapter;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 public class HomeActivity extends AppCompatActivity {

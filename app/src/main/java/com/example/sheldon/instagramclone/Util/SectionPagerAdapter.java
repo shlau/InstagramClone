@@ -1,4 +1,4 @@
-package com.example.sheldon.instagramclone.Home;
+package com.example.sheldon.instagramclone.Util;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

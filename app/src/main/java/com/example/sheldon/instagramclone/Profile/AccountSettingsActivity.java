@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,7 +18,9 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.example.sheldon.instagramclone.R;
+import com.example.sheldon.instagramclone.Util.BottomNavHelper;
 import com.example.sheldon.instagramclone.Util.SectionStateAdapter;
+import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 import java.util.ArrayList;
 
@@ -25,6 +30,7 @@ import java.util.ArrayList;
 
 public class AccountSettingsActivity extends AppCompatActivity {
 
+    private static final int PROFILE_ACTIVITY = 2;
     private Context mContext;
     private SectionStateAdapter adapter;
     private RelativeLayout mLayout;
@@ -38,12 +44,14 @@ public class AccountSettingsActivity extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("AccountSettingsActivity", "onClick: returning to ProfileActivity ");
                 finish();
             }
         });
         setUpList();
         setUpAdapter();
         setUpListListener();
+        setUpBottomNav();
     }
 
     private void setUpAdapter() {
@@ -78,5 +86,14 @@ public class AccountSettingsActivity extends AppCompatActivity {
 
         ArrayAdapter adapter = new ArrayAdapter(mContext, android.R.layout.simple_list_item_1, settingsContent);
         lv.setAdapter(adapter);
+    }
+
+    private void setUpBottomNav() {
+        BottomNavigationViewEx botNavView = (BottomNavigationViewEx) findViewById(R.id.bottom_nav_view_bar);
+        BottomNavHelper.disableAnimation(botNavView);
+        BottomNavHelper.enableNavBar(this, botNavView);
+        Menu menu = botNavView.getMenu();
+        MenuItem item = menu.getItem(PROFILE_ACTIVITY);
+        item.setCheckable(true);
     }
 }

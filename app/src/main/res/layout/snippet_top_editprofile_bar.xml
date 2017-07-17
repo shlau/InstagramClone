@@ -14,9 +14,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_back"
-                    android:id="@+id/settingsBack"/>
+                    android:id="@+id/backArrow"/>
                 <TextView
-                    android:layout_toRightOf="@id/settingsBack"
+                    android:layout_toRightOf="@id/backArrow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -31,7 +31,8 @@
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_check"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="20dp"/>
+                    android:layout_marginRight="20dp"
+                    android:id="@+id/checkMark"/>
             </RelativeLayout>
 
         </android.support.v7.widget.Toolbar>

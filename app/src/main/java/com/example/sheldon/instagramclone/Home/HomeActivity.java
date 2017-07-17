@@ -10,7 +10,9 @@ import android.view.MenuItem;
 import com.example.sheldon.instagramclone.R;
 import com.example.sheldon.instagramclone.Util.BottomNavHelper;
 import com.example.sheldon.instagramclone.Util.SectionPagerAdapter;
+import com.example.sheldon.instagramclone.Util.UniversalImageLoader;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -19,11 +21,16 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initImageLoader();
         setContentView(R.layout.activity_home);
         setUpBottomNav();
         setUpViewAdapter();
     }
 
+    public void initImageLoader() {
+        UniversalImageLoader imgLoader = new UniversalImageLoader(HomeActivity.this);
+        ImageLoader.getInstance().init(imgLoader.getConfig());
+    }
     private void setUpBottomNav() {
         BottomNavigationViewEx botNavView = (BottomNavigationViewEx) findViewById(R.id.bottom_nav_view_bar);
         BottomNavHelper.disableAnimation(botNavView);

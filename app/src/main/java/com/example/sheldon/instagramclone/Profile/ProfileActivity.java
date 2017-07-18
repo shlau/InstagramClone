@@ -2,6 +2,7 @@ package com.example.sheldon.instagramclone.Profile;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 public class ProfileActivity extends AppCompatActivity {
     private static final String TAG = "ProfileActivity";
     private static final int PROFILE_ACTIVITY = 2;
+    private static final int NUM_COLUMNS = 4;
     private ProgressBar mProgressBar;
     private ImageView mProfilePhoto;
     private Context mContext;
@@ -66,6 +68,9 @@ public class ProfileActivity extends AppCompatActivity {
     private void setUpGridView(ArrayList<String> imgURLs) {
         GridView gridView = (GridView) findViewById(R.id.gridView);
         GridImageAdapter adapter = new GridImageAdapter(mContext, R.layout.layout_grid_imageview, "", imgURLs);
+        int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+        int imageWidth = screenWidth / NUM_COLUMNS;
+        gridView.setColumnWidth(imageWidth);
         gridView.setAdapter(adapter);
     }
     private void setProfilePhoto() {

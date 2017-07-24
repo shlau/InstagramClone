@@ -16,6 +16,7 @@ import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 /**
  * Created by sheldon on 7/4/2017.
+ * Setup functionality for the bottom navigation
  */
 
 public class BottomNavHelper {

@@ -23,14 +23,15 @@ import java.util.ArrayList;
 
 /**
  * Created by sheldon on 7/16/2017.
+ * Returns a grid view of images from string of image urls
  */
-
 public class GridImageAdapter extends ArrayAdapter {
     private Context mContext;
     private LayoutInflater mInflater;
     private int resource;
     private String mAppend;
     private ArrayList<String> imgURLs;
+
     public GridImageAdapter(Context context, int layoutResource, String append, ArrayList<String> imgURLs) {
         super(context, layoutResource, imgURLs);
         mContext = context;
@@ -44,6 +45,7 @@ public class GridImageAdapter extends ArrayAdapter {
         ImageView image;
         ProgressBar mProgressBar;
     }
+
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {

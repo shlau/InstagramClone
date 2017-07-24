@@ -17,15 +17,18 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
+import com.example.sheldon.instagramclone.Login.LoginActivity;
 import com.example.sheldon.instagramclone.R;
 import com.example.sheldon.instagramclone.Util.BottomNavHelper;
 import com.example.sheldon.instagramclone.Util.SectionStateAdapter;
+import com.google.firebase.auth.FirebaseAuth;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 import java.util.ArrayList;
 
 /**
  * Created by sheldon on 7/8/2017.
+ * The account settings page
  */
 
 public class AccountSettingsActivity extends AppCompatActivity {
@@ -54,30 +57,58 @@ public class AccountSettingsActivity extends AppCompatActivity {
         setUpBottomNav();
     }
 
+    /**
+     * Initialize adapter
+     */
     private void setUpAdapter() {
         adapter = new SectionStateAdapter(getSupportFragmentManager());
         adapter.addFragment(new EditProfileFragment(), getString(R.string.edit_profile));
         adapter.addFragment(new SignOutFragment(), getString(R.string.sign_out));
     }
 
+    /**
+     * Display fragment at index in the viewpager
+     * @param index the fragment index
+     */
     private void setUpViewPager(int index) {
+        // hide the previous layout so that only the new fragment is shown
         mLayout.setVisibility(View.GONE);
+
         ViewPager vp = (ViewPager) findViewById(R.id.container);
         vp.setAdapter(adapter);
         vp.setCurrentItem(index);
 
     }
 
+    private void signOut() {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        mAuth.signOut();
+        Intent intent = new Intent(AccountSettingsActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
+    /**
+     * Display fragment in list on click
+     */
     private void setUpListListener() {
         ListView lv = (ListView) findViewById(R.id.accountSettingsList);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                setUpViewPager(position);
+                Log.d("In AccountSettings", "onItemClick: position is " + position);
+                if(position == 1) {
+                    signOut();
+                }
+                else {
+                    setUpViewPager(position);
+                }
             }
         });
     }
 
+    /**
+     * Establish list elements and link to adapter
+     */
     private void setUpList() {
         ListView lv = (ListView)findViewById(R.id.accountSettingsList);
         ArrayList<String> settingsContent = new ArrayList<>();
@@ -88,6 +119,9 @@ public class AccountSettingsActivity extends AppCompatActivity {
         lv.setAdapter(adapter);
     }
 
+    /**
+     * Set up the bottom navigation with the appropriate item selected
+     */
     private void setUpBottomNav() {
         BottomNavigationViewEx botNavView = (BottomNavigationViewEx) findViewById(R.id.bottom_nav_view_bar);
         BottomNavHelper.disableAnimation(botNavView);

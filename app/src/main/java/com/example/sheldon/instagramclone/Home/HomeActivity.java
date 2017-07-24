@@ -38,10 +38,17 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Initialize the image loader
+     */
     private void initImageLoader() {
         UniversalImageLoader imgLoader = new UniversalImageLoader(HomeActivity.this);
         ImageLoader.getInstance().init(imgLoader.getConfig());
     }
+
+    /**
+     * Set up the bottom navigation with the appropriate item selected
+     */
     private void setUpBottomNav() {
         BottomNavigationViewEx botNavView = (BottomNavigationViewEx) findViewById(R.id.bottom_nav_view_bar);
         BottomNavHelper.disableAnimation(botNavView);
@@ -51,6 +58,9 @@ public class HomeActivity extends AppCompatActivity {
         item.setCheckable(true);
     }
 
+    /**
+     * Link the Camera, Home, and Messages Fragment to the tab layout
+     */
     private void setUpViewAdapter() {
         SectionPagerAdapter adapter = new SectionPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new CameraFragment());
@@ -65,9 +75,10 @@ public class HomeActivity extends AppCompatActivity {
         tablayout.getTabAt(2).setIcon(R.drawable.ic_messages);
     }
 
-    // firebase
+    // firebase authentication
     private void setUpFireBaseAuth() {
         mAuth = FirebaseAuth.getInstance();
+        //mAuth.signOut();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {

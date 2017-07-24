@@ -7,6 +7,7 @@ import android.widget.ImageView;
 
 /**
  * Created by sheldon on 7/17/2017.
+ * Set an ImageView's dimensions to have matching width and height
  */
 
 public class SquareImageView extends AppCompatImageView {

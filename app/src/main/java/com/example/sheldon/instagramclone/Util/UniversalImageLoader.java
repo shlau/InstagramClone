@@ -20,6 +20,7 @@ import static android.view.View.GONE;
 
 /**
  * Created by sheldon on 7/15/2017.
+ * Establishes default image display and configuration
  */
 
 public class UniversalImageLoader {
@@ -29,6 +30,10 @@ public class UniversalImageLoader {
         mContext = context;
     }
 
+    /**
+     * Sets up default image configuration
+     * @return the configuration
+     */
     public ImageLoaderConfiguration getConfig() {
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .showImageForEmptyUri(defaultImage)
@@ -47,6 +52,13 @@ public class UniversalImageLoader {
         return config;
     }
 
+    /**
+     * Loads a static image into an ImageVIew
+     * @param imgURL the image url
+     * @param image the ImageView
+     * @param mProgressBar the ProgressBar
+     * @param append the image protocol
+     */
     public static void setImage(String imgURL, ImageView image, final ProgressBar mProgressBar, String append) {
         ImageLoader imgLoader = ImageLoader.getInstance();
         imgLoader.displayImage(imgURL + append, image, new ImageLoadingListener() {

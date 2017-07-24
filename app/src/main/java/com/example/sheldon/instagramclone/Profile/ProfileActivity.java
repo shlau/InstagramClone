@@ -25,6 +25,10 @@ import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 import java.util.ArrayList;
 
+/**
+ *  Created by sheldon on 7/8/2017.
+ *  The profile page
+ */
 public class ProfileActivity extends AppCompatActivity {
     private static final String TAG = "ProfileActivity";
     private static final int PROFILE_ACTIVITY = 2;
@@ -65,6 +69,11 @@ public class ProfileActivity extends AppCompatActivity {
 
 
     }
+
+    /**
+     * Set up a grid of images with a given list of image urls
+     * @param imgURLs the image urls
+     */
     private void setUpGridView(ArrayList<String> imgURLs) {
         GridView gridView = (GridView) findViewById(R.id.gridView);
         GridImageAdapter adapter = new GridImageAdapter(mContext, R.layout.layout_grid_imageview, "", imgURLs);
@@ -73,15 +82,27 @@ public class ProfileActivity extends AppCompatActivity {
         gridView.setColumnWidth(imageWidth);
         gridView.setAdapter(adapter);
     }
+
+    /**
+     * load the user profile photo
+     */
     private void setProfilePhoto() {
         UniversalImageLoader.setImage("http://www.freeiconspng.com/uploads/profile-icon-28.png", mProfilePhoto, mProgressBar, "");
     }
+
+    /**
+     * initialize widgets
+     */
     private void setUpActivityWidgets() {
         mProgressBar = (ProgressBar)findViewById(R.id.profileProgressBar);
         mProgressBar.setVisibility(View.GONE);
         mProfilePhoto = (ImageView)findViewById(R.id.profile_image);
         mContext = ProfileActivity.this;
     }
+
+    /**
+     * Set up the bottom navigation with the appropriate item selected
+     */
     private void setUpBottomNav() {
         BottomNavigationViewEx botNavView = (BottomNavigationViewEx) findViewById(R.id.bottom_nav_view_bar);
         BottomNavHelper.disableAnimation(botNavView);
@@ -92,6 +113,9 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Set up navigation to edit profile
+     */
     private void setUpToolbar() {
         ImageView ellipses = (ImageView) findViewById(R.id.settingsIcon);
         ellipses.setOnClickListener(new View.OnClickListener() {

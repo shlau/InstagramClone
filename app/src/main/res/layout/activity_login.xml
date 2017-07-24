@@ -38,7 +38,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Login"
-            android:background="@drawable/round_corner_button"/>
+            android:background="@drawable/round_corner_button"
+            android:id="@+id/login_btn"/>
         <TextView
             android:textSize="16sp"
             android:gravity="center"
@@ -47,7 +48,20 @@
             android:text="Register for an account"
             android:textColor="@color/blue"
             android:layout_marginTop="20dp"
+            android:id="@+id/registerLink"
             />
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/loginProgress"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="Please wait..."
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:id="@+id/loginWaitText"/>
     </LinearLayout>
 
 </RelativeLayout>

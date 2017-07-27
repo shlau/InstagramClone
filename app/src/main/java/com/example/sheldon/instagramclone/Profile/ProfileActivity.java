@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -40,91 +41,101 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        setUpActivityWidgets();
-        setProfilePhoto();
-        setUpBottomNav();
-        setUpToolbar();
-        tempGridSetUp();
+        initFragment();
+
+//        setUpActivityWidgets();
+//        setProfilePhoto();
+//        setUpBottomNav();
+//        setUpToolbar();
+//        tempGridSetUp();
 
     }
 
-    private void tempGridSetUp() {
-        ArrayList<String> imgURLs = new ArrayList<>();
-        imgURLs.add("https://i.imgur.com/mr7QEn4.jpg");
-        imgURLs.add("https://i.imgur.com/CMIngP5.jpg");
-        imgURLs.add("https://i.imgur.com/ml3dPcQ.jpg");
-        imgURLs.add("https://i.imgur.com/lfKEIoL.jpg");
-        imgURLs.add("https://i.imgur.com/jxxrQBp.jpg");
-        imgURLs.add("https://i.imgur.com/zkIlkoK.png");
-        imgURLs.add("https://i.imgur.com/399rOCK.jpg");
-        imgURLs.add("https://i.imgur.com/zE7xY6m.jpg");
-        imgURLs.add("https://i.imgur.com/oVG06v0.jpg");
-        imgURLs.add("https://i.imgur.com/69RAh5r.jpg");
-        imgURLs.add("https://i.imgur.com/PcBVp3H.jpg");
-        imgURLs.add("https://i.imgur.com/vsA41Vd.jpg");
-        imgURLs.add("https://i.imgur.com/c7uXAlW.png");
-        imgURLs.add("https://i.imgur.com/YNCIDhE.png");
-        imgURLs.add("https://i.imgur.com/vIw0BXG.jpg");
-        setUpGridView(imgURLs);
-
-
+    private void initFragment() {
+        ProfileFragment fragment = new ProfileFragment();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.container, fragment);
+        transaction.addToBackStack(getString(R.string.profile_fragment));
+        transaction.commit();
     }
-
-    /**
-     * Set up a grid of images with a given list of image urls
-     * @param imgURLs the image urls
-     */
-    private void setUpGridView(ArrayList<String> imgURLs) {
-        GridView gridView = (GridView) findViewById(R.id.gridView);
-        GridImageAdapter adapter = new GridImageAdapter(mContext, R.layout.layout_grid_imageview, "", imgURLs);
-        int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-        int imageWidth = screenWidth / NUM_COLUMNS;
-        gridView.setColumnWidth(imageWidth);
-        gridView.setAdapter(adapter);
-    }
-
-    /**
-     * load the user profile photo
-     */
-    private void setProfilePhoto() {
-        UniversalImageLoader.setImage("http://www.freeiconspng.com/uploads/profile-icon-28.png", mProfilePhoto, mProgressBar, "");
-    }
-
-    /**
-     * initialize widgets
-     */
-    private void setUpActivityWidgets() {
-        mProgressBar = (ProgressBar)findViewById(R.id.profileProgressBar);
-        mProgressBar.setVisibility(View.GONE);
-        mProfilePhoto = (ImageView)findViewById(R.id.profile_image);
-        mContext = ProfileActivity.this;
-    }
-
-    /**
-     * Set up the bottom navigation with the appropriate item selected
-     */
-    private void setUpBottomNav() {
-        BottomNavigationViewEx botNavView = (BottomNavigationViewEx) findViewById(R.id.bottom_nav_view_bar);
-        BottomNavHelper.disableAnimation(botNavView);
-        BottomNavHelper.enableNavBar(this, botNavView);
-        Menu menu = botNavView.getMenu();
-        MenuItem item = menu.getItem(PROFILE_ACTIVITY);
-        item.setChecked(true);
-
-    }
-
-    /**
-     * Set up navigation to edit profile
-     */
-    private void setUpToolbar() {
-        ImageView ellipses = (ImageView) findViewById(R.id.settingsIcon);
-        ellipses.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ProfileActivity.this, AccountSettingsActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
+//
+//    private void tempGridSetUp() {
+//        ArrayList<String> imgURLs = new ArrayList<>();
+//        imgURLs.add("https://i.imgur.com/mr7QEn4.jpg");
+//        imgURLs.add("https://i.imgur.com/CMIngP5.jpg");
+//        imgURLs.add("https://i.imgur.com/ml3dPcQ.jpg");
+//        imgURLs.add("https://i.imgur.com/lfKEIoL.jpg");
+//        imgURLs.add("https://i.imgur.com/jxxrQBp.jpg");
+//        imgURLs.add("https://i.imgur.com/zkIlkoK.png");
+//        imgURLs.add("https://i.imgur.com/399rOCK.jpg");
+//        imgURLs.add("https://i.imgur.com/zE7xY6m.jpg");
+//        imgURLs.add("https://i.imgur.com/oVG06v0.jpg");
+//        imgURLs.add("https://i.imgur.com/69RAh5r.jpg");
+//        imgURLs.add("https://i.imgur.com/PcBVp3H.jpg");
+//        imgURLs.add("https://i.imgur.com/vsA41Vd.jpg");
+//        imgURLs.add("https://i.imgur.com/c7uXAlW.png");
+//        imgURLs.add("https://i.imgur.com/YNCIDhE.png");
+//        imgURLs.add("https://i.imgur.com/vIw0BXG.jpg");
+//        setUpGridView(imgURLs);
+//
+//
+//    }
+//
+//    /**
+//     * Set up a grid of images with a given list of image urls
+//     * @param imgURLs the image urls
+//     */
+//    private void setUpGridView(ArrayList<String> imgURLs) {
+//        GridView gridView = (GridView) findViewById(R.id.gridView);
+//        GridImageAdapter adapter = new GridImageAdapter(mContext, R.layout.layout_grid_imageview, "", imgURLs);
+//        int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+//        int imageWidth = screenWidth / NUM_COLUMNS;
+//        gridView.setColumnWidth(imageWidth);
+//        gridView.setAdapter(adapter);
+//    }
+//
+//    /**
+//     * load the user profile photo
+//     */
+//    private void setProfilePhoto() {
+//        UniversalImageLoader.setImage("http://www.freeiconspng.com/uploads/profile-icon-28.png", mProfilePhoto, mProgressBar, "");
+//    }
+//
+//    /**
+//     * initialize widgets
+//     */
+//    private void setUpActivityWidgets() {
+//        mProgressBar = (ProgressBar)findViewById(R.id.profileProgressBar);
+//        mProgressBar.setVisibility(View.GONE);
+//        mProfilePhoto = (ImageView)findViewById(R.id.profile_image);
+//        mContext = ProfileActivity.this;
+//    }
+//
+//    /**
+//     * Set up the bottom navigation with the appropriate item selected
+//     */
+//    private void setUpBottomNav() {
+//        BottomNavigationViewEx botNavView = (BottomNavigationViewEx) findViewById(R.id.bottom_nav_view_bar);
+//        BottomNavHelper.disableAnimation(botNavView);
+//        BottomNavHelper.enableNavBar(this, botNavView);
+//        Menu menu = botNavView.getMenu();
+//        MenuItem item = menu.getItem(PROFILE_ACTIVITY);
+//        item.setChecked(true);
+//
+//    }
+//
+//    /**
+//     * Set up navigation to edit profile
+//     */
+//    private void setUpToolbar() {
+//        ImageView ellipses = (ImageView) findViewById(R.id.settingsIcon);
+//        ellipses.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(ProfileActivity.this, AccountSettingsActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+//    }
 
 }

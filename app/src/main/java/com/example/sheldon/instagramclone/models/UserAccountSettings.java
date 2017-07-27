@@ -25,6 +25,9 @@ public class UserAccountSettings {
         this.website = website;
     }
 
+    public UserAccountSettings() {
+    }
+
     public String getDescription() {
         return description;
     }

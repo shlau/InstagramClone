@@ -112,31 +112,33 @@ public class RegisterActivity extends AppCompatActivity{
                 waitText.setVisibility(View.GONE);
             }
         });
-
     }
     // firebase
     private void setUpFireBaseAuth() {
         mAuth = FirebaseAuth.getInstance();
+        mFireBaseDatabase = FirebaseDatabase.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                mFireBaseDatabase = FirebaseDatabase.getInstance();
+
                 ref = mFireBaseDatabase.getReference();
 
                 if (user != null) {
                     // User is signed in
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                    Log.d(TAG, "onAuthStateChanged:signed_in: waiting for listener" + user.getUid());
 
                     ref.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
+                            Log.d(TAG, "Data Changed:");
                             if(fireBaseMethods.userNameExists(fullname, dataSnapshot)) {
                                 append = ref.push().getKey().substring(3,10);
                             }
                             fullname += append;
 
                             fireBaseMethods.addNewUser(email, "", fullname, "", "");
+                            Toast.makeText(mContext, "Signup successful. Sending verification email.", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
@@ -144,7 +146,6 @@ public class RegisterActivity extends AppCompatActivity{
 
                         }
                     });
-                    finish();
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
@@ -153,6 +154,7 @@ public class RegisterActivity extends AppCompatActivity{
                 // ...
             }
         };
+
     }
 
     @Override

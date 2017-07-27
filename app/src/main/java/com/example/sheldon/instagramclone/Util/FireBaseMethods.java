@@ -11,6 +11,7 @@ import com.example.sheldon.instagramclone.Login.RegisterActivity;
 import com.example.sheldon.instagramclone.R;
 import com.example.sheldon.instagramclone.models.User;
 import com.example.sheldon.instagramclone.models.UserAccountSettings;
+import com.example.sheldon.instagramclone.models.UserSettings;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -91,6 +92,7 @@ public class FireBaseMethods {
                             sendEmailVerification();
                             mAuth.signOut();
                         }
+
                         // ...
                     }
                 });
@@ -117,6 +119,35 @@ public class FireBaseMethods {
 
         UserAccountSettings settings = new UserAccountSettings(description,username,0,0,0,profile_photo, username, website);
         ref.child(mContext.getString(R.string.db_account_settings)).child(userID).setValue(settings);
+    }
+
+    public UserSettings getUserSettings(DataSnapshot dataSnapshot) {
+        UserAccountSettings accountSettings = new UserAccountSettings();
+        User user = new User();
+
+        for(DataSnapshot ds : dataSnapshot.getChildren()) {
+            if(ds.getKey().equals(mContext.getString(R.string.db_account_settings))) {
+                accountSettings.setDescription(ds.child(userID).getValue(UserAccountSettings.class).getDescription());
+                accountSettings.setDisplay_name(ds.child(userID).getValue(UserAccountSettings.class).getDisplay_name());
+                accountSettings.setFollowers(ds.child(userID).getValue(UserAccountSettings.class).getFollowers());
+                accountSettings.setFollowing(ds.child(userID).getValue(UserAccountSettings.class).getFollowing());
+                accountSettings.setPosts(ds.child(userID).getValue(UserAccountSettings.class).getPosts());
+                accountSettings.setProfile_photo(ds.child(userID).getValue(UserAccountSettings.class).getProfile_photo());
+                accountSettings.setUsername(ds.child(userID).getValue(UserAccountSettings.class).getUsername());
+                accountSettings.setWebsite(ds.child(userID).getValue(UserAccountSettings.class).getWebsite());
+            }
+
+            if(ds.getKey().equals(mContext.getString(R.string.db_users))) {
+                user.setUsername(ds.child(userID).getValue(User.class).getUsername());
+                user.setEmail(ds.child(userID).getValue(User.class).getEmail());
+                user.setPhone_number(ds.child(userID).getValue(User.class).getPhone_number());
+                user.setUser_id(ds.child(userID).getValue(User.class).getUser_id());
+            }
+
+
+        }
+        UserSettings settings = new UserSettings(user, accountSettings);
+        return settings;
     }
 
     public String getUserID() {

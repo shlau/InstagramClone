@@ -121,6 +121,34 @@ public class FireBaseMethods {
         ref.child(mContext.getString(R.string.db_account_settings)).child(userID).setValue(settings);
     }
 
+    public void updateUsername(String username) {
+        Log.d(TAG, "Updating username to " + username);
+        ref.child(mContext.getString(R.string.db_users)).child(userID).child(mContext.getString(R.string.field_username)).setValue(username);
+        ref.child(mContext.getString(R.string.db_account_settings)).child(userID).child(mContext.getString(R.string.field_username)).setValue(username);
+    }
+
+    public void updateEmail(String email) {
+        Log.d(TAG, "Updating email to " + email);
+        ref.child(mContext.getString(R.string.db_users)).child(userID).child("email").setValue(email);
+    }
+
+    public void updateUserAccountSettings(String displayName, String description, String website ) {
+        if(displayName != null) {
+            ref.child(mContext.getString(R.string.db_account_settings)).child(userID).child(mContext.getString(R.string.field_display_name)).setValue(displayName);
+        }
+        if(description != null) {
+            ref.child(mContext.getString(R.string.db_account_settings)).child(userID).child(mContext.getString(R.string.field_description)).setValue(description);
+        }
+        if(website != null) {
+            ref.child(mContext.getString(R.string.db_account_settings)).child(userID).child(mContext.getString(R.string.field_website)).setValue(website);
+        }
+    }
+
+    public void updateUserSettings(long phoneNumber) {
+        if(phoneNumber != 0) {
+            ref.child(mContext.getString(R.string.db_users)).child(userID).child(mContext.getString(R.string.field_phonenumber)).setValue(phoneNumber);
+        }
+    }
     public UserSettings getUserSettings(DataSnapshot dataSnapshot) {
         UserAccountSettings accountSettings = new UserAccountSettings();
         User user = new User();

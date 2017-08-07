@@ -1,5 +1,6 @@
 package com.example.sheldon.instagramclone.Profile;
 
+import android.accounts.Account;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -57,6 +58,7 @@ public class ProfileFragment extends Fragment{
     private TextView mDescription;
     private TextView mWebsite;
     private TextView mUsername;
+    private TextView mEditProfile;
     private ProgressBar mProgressBar;
     private GridView mGridView;
 
@@ -76,6 +78,15 @@ public class ProfileFragment extends Fragment{
         setUpBottomNav();
         setUpToolBar();
         setUpFireBaseAuth();
+
+        mEditProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AccountSettingsActivity.class);
+                intent.putExtra(getString(R.string.calling_activity), getString(R.string.profile_activity));
+                startActivity(intent);
+            }
+        });
         return view;
     }
 
@@ -95,6 +106,7 @@ public class ProfileFragment extends Fragment{
         mProgressBar = (ProgressBar) view.findViewById(R.id.profileProgressBar);
         mGridView = (GridView) view.findViewById(R.id.gridView);
         fireBaseMethods = new FireBaseMethods(mContext);
+        mEditProfile = (TextView) view.findViewById(R.id.textEditProfile);
     }
     private void setUpBottomNav() {
         BottomNavHelper.disableAnimation(botNavView);
@@ -129,6 +141,7 @@ public class ProfileFragment extends Fragment{
         mDescription.setText(accountSettings.getDescription());
         mWebsite.setText(accountSettings.getWebsite());
         mUsername.setText(accountSettings.getUsername());
+        mProgressBar.setVisibility(View.GONE);
 
     }
     // firebase

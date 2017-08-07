@@ -55,6 +55,7 @@ public class AccountSettingsActivity extends AppCompatActivity {
         setUpAdapter();
         setUpListListener();
         setUpBottomNav();
+        getIncomingIntent();
     }
 
     /**
@@ -80,6 +81,12 @@ public class AccountSettingsActivity extends AppCompatActivity {
 
     }
 
+    private void getIncomingIntent() {
+        Intent intent = getIntent();
+        if(intent.hasExtra(getString(R.string.calling_activity))) {
+            setUpViewPager(0);
+        }
+    }
     private void signOut() {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         mAuth.signOut();

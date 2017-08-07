@@ -26,6 +26,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
@@ -61,6 +62,29 @@ public class RegisterActivity extends AppCompatActivity{
         registerUser();
     }
 
+    private void checkUsernameExists(final String username) {
+        ref = mFireBaseDatabase.getReference();
+        Query query = ref.child(getString(R.string.db_users)).orderByChild("username").equalTo(username);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {  Log.d(TAG, "Data Changed:");
+
+                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                    if(ds.exists()) {
+                        append = ref.push().getKey().substring(3,10);
+                    }
+                }
+                fullname += append;
+                fireBaseMethods.addNewUser(email, "", fullname, "", "");
+                Toast.makeText(mContext, "Signup successful. Sending verification email.", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
     /**
      * Initialize the widgets being used
      */

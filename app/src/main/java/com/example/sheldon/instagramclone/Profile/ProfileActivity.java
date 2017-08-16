@@ -32,7 +32,7 @@ import java.util.ArrayList;
  */
 public class ProfileActivity extends AppCompatActivity {
     private static final String TAG = "ProfileActivity";
-    private static final int PROFILE_ACTIVITY = 2;
+    private static final int PROFILE_ACTIVITY = 4;
     private static final int NUM_COLUMNS = 4;
     private ProgressBar mProgressBar;
     private ImageView mProfilePhoto;

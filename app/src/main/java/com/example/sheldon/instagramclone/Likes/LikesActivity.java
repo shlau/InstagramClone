@@ -13,7 +13,7 @@ import com.example.sheldon.instagramclone.Util.BottomNavHelper;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 public class LikesActivity extends AppCompatActivity {
-    private static final int LIKES_ACTIVITY = 1;
+    private static final int LIKES_ACTIVITY = 3;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

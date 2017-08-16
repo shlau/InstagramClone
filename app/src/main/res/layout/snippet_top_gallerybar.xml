@@ -12,23 +12,24 @@
                 android:layout_height="match_parent">
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:src="@drawable/ic_x"
                     android:id="@+id/exitShare"/>
 
                 <Spinner
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_toRightOf="@id/exitShare"
-                    android:id="@+id/shareSpinner">
-
-
+                    android:id="@+id/shareSpinner"
+                    android:background="@null"
+                    android:layout_marginLeft="10dp">
                 </Spinner>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
                     android:text="Next"
                     android:textSize="25sp"
                     android:textColor="@color/blue"

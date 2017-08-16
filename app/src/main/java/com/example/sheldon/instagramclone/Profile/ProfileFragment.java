@@ -44,7 +44,7 @@ import static android.content.ContentValues.TAG;
  */
 
 public class ProfileFragment extends Fragment{
-    private static final int PROFILE_ACTIVITY = 2;
+    private static final int PROFILE_ACTIVITY = 4;
 
     private Context mContext;
     private ImageView mProfileMenu;

@@ -13,7 +13,7 @@ import com.example.sheldon.instagramclone.Util.BottomNavHelper;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 public class SearchActivity extends AppCompatActivity {
-    private static final int SEARCH_ACTIVITY = 3;
+    private static final int SEARCH_ACTIVITY = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

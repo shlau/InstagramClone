@@ -22,7 +22,7 @@ import com.example.sheldon.instagramclone.Util.SectionStateAdapter;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 public class ShareActivity extends AppCompatActivity {
-    private static final int SHARE_ACTIVITY = 4;
+    private static final int SHARE_ACTIVITY = 2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

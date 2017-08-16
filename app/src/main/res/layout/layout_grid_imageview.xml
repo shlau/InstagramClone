@@ -6,7 +6,9 @@
     <com.example.sheldon.instagramclone.Util.SquareImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/gridViewImage"/>
+        android:id="@+id/gridViewImage"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"/>
 
     <ProgressBar
         android:layout_width="50dp"

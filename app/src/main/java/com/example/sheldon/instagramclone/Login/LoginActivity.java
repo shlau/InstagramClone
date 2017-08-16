@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.sheldon.instagramclone.Home.HomeActivity;
 import com.example.sheldon.instagramclone.R;
+import com.example.sheldon.instagramclone.Util.FireBaseMethods;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -35,6 +36,7 @@ public class LoginActivity extends AppCompatActivity{
     private TextView mLinkText;
     private Context mContext;
     private FirebaseAuth mAuth;
+    private FireBaseMethods fireBaseMethods;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private final static String TAG = "LoginActivity";
 
@@ -67,6 +69,7 @@ public class LoginActivity extends AppCompatActivity{
         mContext = LoginActivity.this;
         mProgressBar.setVisibility(View.GONE);
         mWaitText.setVisibility(View.GONE);
+        fireBaseMethods = new FireBaseMethods(mContext);
     }
 
     /**
@@ -125,6 +128,8 @@ public class LoginActivity extends AppCompatActivity{
                                         startActivity(intent);
                                     }
                                     else {
+                                        Toast.makeText(mContext, "Please Verify Email", Toast.LENGTH_SHORT).show();
+                                        fireBaseMethods.sendEmailVerification();
                                         mAuth.signOut();
                                     }
                                 } catch (NullPointerException e) {
@@ -153,6 +158,8 @@ public class LoginActivity extends AppCompatActivity{
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
+                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                    startActivity(intent);
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                 } else {
                     // User is signed out

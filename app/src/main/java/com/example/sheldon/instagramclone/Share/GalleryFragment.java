@@ -1,5 +1,6 @@
 package com.example.sheldon.instagramclone.Share;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -45,6 +46,7 @@ public class GalleryFragment extends Fragment {
     private ImageView mGalleryImage;
     private HashMap<String, ArrayList<String>> directoryToImage;
     private String append = "file:/";
+    private String mSelectedImage;
     
     @Nullable
     @Override
@@ -67,6 +69,9 @@ public class GalleryFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: Navigating to next step in sharing photo");
+                Intent intent = new Intent(getActivity(), NextActivity.class);
+                intent.putExtra("selected_image", mSelectedImage);
+                startActivity(intent);
             }
         });
         init();
@@ -98,6 +103,7 @@ public class GalleryFragment extends Fragment {
 
     private void setUpGridView(String directory) {
         final ArrayList<String> imgURLS = directoryToImage.get(directory);
+        Log.d(TAG, "setUpGridView: Displaying " + directory + "  with " + imgURLS.size() + " images");
         int gridWidth = getResources().getDisplayMetrics().widthPixels;
         int imageWidth = gridWidth / NUM_COLUMNS;
         Log.d(TAG, "setUpGridView: Image Width is " + imageWidth);
@@ -105,11 +111,12 @@ public class GalleryFragment extends Fragment {
         GridImageAdapter adapter = new GridImageAdapter(getActivity(), R.layout.layout_grid_imageview, append, imgURLS);
         mGridView.setAdapter(adapter);
         UniversalImageLoader.setImage(imgURLS.get(0),mGalleryImage, mProgressBar, append);
-
+        mSelectedImage = imgURLS.get(0);
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 UniversalImageLoader.setImage(imgURLS.get(position), mGalleryImage, mProgressBar, append);
+                mSelectedImage = imgURLS.get(0);
             }
         });
     }

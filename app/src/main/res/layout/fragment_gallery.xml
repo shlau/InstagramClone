@@ -28,7 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/galleryImageView"
-                android:scaleType="center"/>
+                android:scaleType="centerCrop"/>
             
             <ProgressBar
                 android:layout_width="100dp"
@@ -42,8 +42,8 @@
             android:layout_height="0dp"
             android:layout_weight="40"
             android:numColumns="5"
-            android:verticalSpacing="1dp"
-            android:horizontalSpacing="1dp"
+            android:verticalSpacing="1.5dp"
+            android:horizontalSpacing="1.5dp"
             android:gravity="center"
             android:layout_marginTop="1dp"
             android:stretchMode="none"

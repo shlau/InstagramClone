@@ -36,7 +36,7 @@ import static android.content.ContentValues.TAG;
 
 public class GalleryFragment extends Fragment {
 
-    private static final int NUM_COLUMNS = 3;
+    private static final int NUM_COLUMNS = 4;
     private ImageView mExit;
     private Spinner mSpinner;
     private TextView mNext;
@@ -105,6 +105,7 @@ public class GalleryFragment extends Fragment {
         final ArrayList<String> imgURLS = directoryToImage.get(directory);
         Log.d(TAG, "setUpGridView: Displaying " + directory + "  with " + imgURLS.size() + " images");
         int gridWidth = getResources().getDisplayMetrics().widthPixels;
+        Log.d(TAG, "setUpGridView: Screen width is " + gridWidth);
         int imageWidth = gridWidth / NUM_COLUMNS;
         Log.d(TAG, "setUpGridView: Image Width is " + imageWidth);
         mGridView.setColumnWidth(imageWidth);

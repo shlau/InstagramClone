@@ -7,6 +7,7 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,8 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import java.util.ArrayList;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by sheldon on 7/16/2017.
@@ -51,9 +54,6 @@ public class GridImageAdapter extends ArrayAdapter<String>{
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
-        /*
-        Viewholder build pattern (Similar to recyclerview)
-         */
         final ViewHolder holder;
         if(convertView == null){
             convertView = mInflater.inflate(layoutResource, parent, false);
@@ -68,6 +68,7 @@ public class GridImageAdapter extends ArrayAdapter<String>{
         }
 
         String imgURL = getItem(position);
+        Log.d(TAG, "getView: Loading position " + position + ", displaying " + imgURL + ", with image " + holder.image);
 
         ImageLoader imageLoader = ImageLoader.getInstance();
 

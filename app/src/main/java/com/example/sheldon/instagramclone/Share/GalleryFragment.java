@@ -117,7 +117,7 @@ public class GalleryFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 UniversalImageLoader.setImage(imgURLS.get(position), mGalleryImage, mProgressBar, append);
-                mSelectedImage = imgURLS.get(0);
+                mSelectedImage = imgURLS.get(position);
             }
         });
     }

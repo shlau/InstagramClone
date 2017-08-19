@@ -15,6 +15,8 @@
 
     <string name="db_users">users</string>
     <string name="db_account_settings">user_account_settings</string>
+    <string name="db_user_photos">user_photos</string>
+    <string name="db_photos">photos</string>
 
     <string name="profile_fragment">Profile</string>
 
@@ -32,5 +34,9 @@
     <string name="field_email">email</string>
     <string name="field_username">username</string>
     <string name="field_phonenumber">phone_number</string>
+
+    <string name="new_photo">new_photo</string>
+    <string name="new_profile_photo">new_profile_photo</string>
+
 
 </resources>

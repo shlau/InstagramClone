@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.sheldon.instagramclone.Home.HomeActivity;
 import com.example.sheldon.instagramclone.R;
 import com.example.sheldon.instagramclone.Util.FireBaseMethods;
 import com.example.sheldon.instagramclone.Util.UniversalImageLoader;
@@ -41,6 +42,8 @@ public class NextActivity extends AppCompatActivity{
     private ImageView mShareImage;
     private EditText mDescription;
 
+    private int mNumImages;
+    private String mImagePath;
 
     private String append = "file:/";
 
@@ -48,6 +51,7 @@ public class NextActivity extends AppCompatActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_next);
+        fireBaseMethods = new FireBaseMethods(NextActivity.this);
         mExit = (ImageView) findViewById(R.id.exitNext);
         mSharText = (TextView) findViewById(R.id.shareText);
         mShareImage = (ImageView) findViewById(R.id.shareImage);
@@ -61,10 +65,14 @@ public class NextActivity extends AppCompatActivity{
             }
         });
 
-        mShareImage.setOnClickListener(new View.OnClickListener() {
+        mSharText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // upload image to firebase
+                String caption = mDescription.getText().toString();
+                fireBaseMethods.uploadImage(getString(R.string.new_photo), caption, mNumImages, mImagePath);
+                Intent intent = new Intent(NextActivity.this, HomeActivity.class);
+                startActivity(intent);
             }
         });
         setImage();
@@ -72,9 +80,9 @@ public class NextActivity extends AppCompatActivity{
 
     private void setImage() {
         Intent intent = getIntent();
-        String imagePath = intent.getStringExtra("selected_image");
+        mImagePath = intent.getStringExtra("selected_image");
 
-        UniversalImageLoader.setImage(imagePath, mShareImage,null,append);
+        UniversalImageLoader.setImage(mImagePath, mShareImage,null,append);
     }
 
     // firebase
@@ -101,7 +109,8 @@ public class NextActivity extends AppCompatActivity{
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
+                mNumImages = fireBaseMethods.getImageCount(dataSnapshot);
+                Log.d(TAG, "onDataChange: This user has " + mNumImages + " images.");
             }
 
             @Override

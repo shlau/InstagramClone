@@ -23,7 +23,9 @@ import android.widget.TextView;
 import com.example.sheldon.instagramclone.R;
 import com.example.sheldon.instagramclone.Util.BottomNavHelper;
 import com.example.sheldon.instagramclone.Util.FireBaseMethods;
+import com.example.sheldon.instagramclone.Util.GridImageAdapter;
 import com.example.sheldon.instagramclone.Util.UniversalImageLoader;
+import com.example.sheldon.instagramclone.models.Photo;
 import com.example.sheldon.instagramclone.models.UserAccountSettings;
 import com.example.sheldon.instagramclone.models.UserSettings;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,10 +34,13 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 import org.w3c.dom.Text;
+
+import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
 
@@ -45,6 +50,7 @@ import static android.content.ContentValues.TAG;
 
 public class ProfileFragment extends Fragment{
     private static final int PROFILE_ACTIVITY = 4;
+    private static final int NUM_COLUMNS = 4;
 
     private Context mContext;
     private ImageView mProfileMenu;
@@ -68,6 +74,7 @@ public class ProfileFragment extends Fragment{
     private DatabaseReference myRef;
     private FireBaseMethods fireBaseMethods;
 
+    private ArrayList<String> photos;
 
 
     @Nullable
@@ -78,16 +85,41 @@ public class ProfileFragment extends Fragment{
         setUpBottomNav();
         setUpToolBar();
         setUpFireBaseAuth();
-
+        setUpGridView();
         mEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), AccountSettingsActivity.class);
                 intent.putExtra(getString(R.string.calling_activity), getString(R.string.profile_activity));
                 startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
         return view;
+    }
+
+    private void setUpGridView() {
+        photos = new ArrayList<>();
+        myRef.child(getString(R.string.db_user_photos)).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                    String imgURL = ds.getValue(Photo.class).getImage_path();
+                    photos.add(imgURL);
+                    Log.d(TAG, "onDataChange: Adding images to profile gridview " + imgURL);
+
+                }
+                GridImageAdapter adapter = new GridImageAdapter(getActivity(), R.layout.layout_grid_imageview, "", photos);
+                mGridView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
     }
 
     private void initWidgets(View view) {
@@ -107,10 +139,14 @@ public class ProfileFragment extends Fragment{
         mGridView = (GridView) view.findViewById(R.id.gridView);
         fireBaseMethods = new FireBaseMethods(mContext);
         mEditProfile = (TextView) view.findViewById(R.id.textEditProfile);
+
+        int screenSize = getResources().getDisplayMetrics().widthPixels;
+        int imageWidth = screenSize / NUM_COLUMNS;
+        mGridView.setColumnWidth(imageWidth);
     }
     private void setUpBottomNav() {
         BottomNavHelper.disableAnimation(botNavView);
-        BottomNavHelper.enableNavBar(mContext, botNavView);
+        BottomNavHelper.enableNavBar(mContext, getActivity(), botNavView);
         Menu menu = botNavView.getMenu();
         MenuItem item = menu.getItem(PROFILE_ACTIVITY);
         item.setChecked(true);

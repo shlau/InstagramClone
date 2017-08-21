@@ -1,6 +1,7 @@
 package com.example.sheldon.instagramclone.Share;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -47,6 +48,9 @@ public class NextActivity extends AppCompatActivity{
 
     private String append = "file:/";
 
+    private boolean hasImage;
+    private boolean hasBitmap;
+    private Bitmap bm;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,25 +68,37 @@ public class NextActivity extends AppCompatActivity{
                 finish();
             }
         });
-
+        setImage();
         mSharText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // upload image to firebase
                 String caption = mDescription.getText().toString();
-                fireBaseMethods.uploadImage(getString(R.string.new_photo), caption, mNumImages, mImagePath);
+                if(hasImage) {
+                    fireBaseMethods.uploadImage(getString(R.string.new_photo), caption, mNumImages, mImagePath, null);
+                }
+                else if(hasBitmap) {
+                    fireBaseMethods.uploadImage(getString(R.string.new_photo), caption, mNumImages, null, bm);
+                }
                 Intent intent = new Intent(NextActivity.this, HomeActivity.class);
                 startActivity(intent);
             }
         });
-        setImage();
+
     }
 
     private void setImage() {
         Intent intent = getIntent();
-        mImagePath = intent.getStringExtra("selected_image");
-
-        UniversalImageLoader.setImage(mImagePath, mShareImage,null,append);
+        hasImage = intent.hasExtra(getString(R.string.selected_image));
+        hasBitmap = intent.hasExtra(getString(R.string.selected_bitmap));
+        if(hasImage) {
+            mImagePath = intent.getStringExtra(getString(R.string.selected_image));
+            UniversalImageLoader.setImage(mImagePath, mShareImage, null, append);
+        }
+        else if(hasBitmap) {
+            bm = intent.getParcelableExtra(getString(R.string.selected_bitmap));
+            mShareImage.setImageBitmap(bm);
+        }
     }
 
     // firebase
@@ -132,5 +148,11 @@ public class NextActivity extends AppCompatActivity{
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(0, 0);
     }
 }

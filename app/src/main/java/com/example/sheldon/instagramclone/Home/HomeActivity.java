@@ -52,7 +52,7 @@ public class HomeActivity extends AppCompatActivity {
     private void setUpBottomNav() {
         BottomNavigationViewEx botNavView = (BottomNavigationViewEx) findViewById(R.id.bottom_nav_view_bar);
         BottomNavHelper.disableAnimation(botNavView);
-        BottomNavHelper.enableNavBar(this, botNavView);
+        BottomNavHelper.enableNavBar(this, this, botNavView);
         Menu menu = botNavView.getMenu();
         MenuItem item = menu.getItem(HOME_ACTIVITY);
         item.setCheckable(true);
@@ -99,6 +99,11 @@ public class HomeActivity extends AppCompatActivity {
         };
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(0, 0);
+    }
     @Override
     public void onStart() {
         super.onStart();

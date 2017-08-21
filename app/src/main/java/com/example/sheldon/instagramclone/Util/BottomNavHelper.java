@@ -1,5 +1,6 @@
 package com.example.sheldon.instagramclone.Util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -37,7 +38,7 @@ public class BottomNavHelper {
      * @param context The current class associated with the activity
      * @param navBar The navigation bar
      */
-    public static void enableNavBar(final Context context, BottomNavigationViewEx navBar) {
+    public static void enableNavBar(final Context context, final Activity callingActivity , BottomNavigationViewEx navBar) {
        navBar.setOnNavigationItemSelectedListener( new BottomNavigationView.OnNavigationItemSelectedListener()  {
 
             @Override
@@ -46,22 +47,27 @@ public class BottomNavHelper {
                     case R.id.ic_home:
                         Intent intent1 = new Intent(context, HomeActivity.class);
                         context.startActivity(intent1);
+                        callingActivity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                         break;
                     case R.id.ic_search:
                         Intent intent2 = new Intent(context, SearchActivity.class);
                         context.startActivity(intent2);
+                        callingActivity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                         break;
                     case R.id.ic_android:
                         Intent intent3 = new Intent(context, ProfileActivity.class);
                         context.startActivity(intent3);
+                        callingActivity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                         break;
                     case R.id.ic_circle:
                         Intent intent4 = new Intent(context, ShareActivity.class);
                         context.startActivity(intent4);
+                        callingActivity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                         break;
                     case R.id.ic_alert:
                         Intent intent5= new Intent(context, LikesActivity.class);
                         context.startActivity(intent5);
+                        callingActivity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                         break;
                 }
                 return false;

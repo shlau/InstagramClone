@@ -37,12 +37,14 @@ public class ProfileActivity extends AppCompatActivity {
     private ProgressBar mProgressBar;
     private ImageView mProfilePhoto;
     private Context mContext;
+    private BottomNavigationViewEx botNavView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate: Currently in profile activity");
         setContentView(R.layout.activity_profile);
         initFragment();
-
+//        botNavView = (BottomNavigationViewEx) findViewById(R.id.bottom_nav_view_bar);
 //        setUpActivityWidgets();
 //        setProfilePhoto();
 //        setUpBottomNav();
@@ -55,8 +57,14 @@ public class ProfileActivity extends AppCompatActivity {
         ProfileFragment fragment = new ProfileFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.container, fragment);
-        transaction.addToBackStack(getString(R.string.profile_fragment));
+//        transaction.addToBackStack(getString(R.string.profile_fragment));
         transaction.commit();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(0, 0);
     }
 //
 //    private void tempGridSetUp() {

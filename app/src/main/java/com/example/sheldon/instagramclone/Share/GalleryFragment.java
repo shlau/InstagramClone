@@ -1,5 +1,6 @@
 package com.example.sheldon.instagramclone.Share;
 
+import android.accounts.Account;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.sheldon.instagramclone.Profile.AccountSettingsActivity;
 import com.example.sheldon.instagramclone.R;
 import com.example.sheldon.instagramclone.Util.GridImageAdapter;
 import com.example.sheldon.instagramclone.Util.ImageFinder;
@@ -68,10 +70,20 @@ public class GalleryFragment extends Fragment {
         mNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick: Navigating to next step in sharing photo");
-                Intent intent = new Intent(getActivity(), NextActivity.class);
-                intent.putExtra("selected_image", mSelectedImage);
-                startActivity(intent);
+                if(isRootTask()) {
+                    Log.d(TAG, "onClick: Navigating to next step in sharing photo");
+                    Intent intent = new Intent(getActivity(), NextActivity.class);
+                    intent.putExtra(getString(R.string.selected_image), mSelectedImage);
+                    startActivity(intent);
+                }
+                else {
+                    Log.d(TAG, "onClick: Navigating to next step in setting profile photo");
+                    Intent intent = new Intent(getActivity(), AccountSettingsActivity.class);
+                    intent.putExtra(getString(R.string.selected_image), mSelectedImage);
+                    intent.putExtra(getString(R.string.return_fragment), getString(R.string.edit_profile_fragment));
+                    startActivity(intent);
+                    getActivity().finish();
+                }
             }
         });
         init();
@@ -79,6 +91,9 @@ public class GalleryFragment extends Fragment {
         return view;
     }
 
+    private boolean isRootTask() {
+        return ((ShareActivity)getActivity()).getTask() == 0;
+    }
     private void init() {
         ImageFinder imageFinder = new ImageFinder();
         imageFinder.getImages(getActivity());

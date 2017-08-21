@@ -1,6 +1,7 @@
 package com.example.sheldon.instagramclone.Share;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.sheldon.instagramclone.Profile.AccountSettingsActivity;
 import com.example.sheldon.instagramclone.R;
 
 import static android.content.ContentValues.TAG;
@@ -37,11 +39,39 @@ public class PhotoFragment extends Fragment {
         });
         return view;
     }
+    private boolean isRootTask() {
+        return ((ShareActivity)getActivity()).getTask() == 0;
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == REQUEST_IMAGE_CAPTURE) {
             Log.d(TAG, "onActivityResult: capturing image");
+
+            if(isRootTask()) {
+                try {
+                    Bitmap bm = (Bitmap)data.getExtras().get("data");
+                    Intent intent = new Intent(getActivity(), NextActivity.class);
+                    intent.putExtra(getString(R.string.selected_bitmap), bm);
+                    startActivity(intent);
+            }
+                catch(NullPointerException e) {
+                    Log.d(TAG, "onActivityResult: NullPOinterExecption " + e.getMessage());
+                }
+            }
+            else {
+                try {
+                    Bitmap bm = (Bitmap)data.getExtras().get("data");
+                    Intent intent = new Intent(getActivity(), AccountSettingsActivity.class);
+                    intent.putExtra(getString(R.string.selected_bitmap), bm);
+                    intent.putExtra(getString(R.string.return_fragment), getString(R.string.edit_profile_fragment));
+                    startActivity(intent);
+                    getActivity().finish();
+                }
+                catch(NullPointerException e) {
+                    Log.d(TAG, "onActivityResult: NullPOinterExecption " + e.getMessage());
+                }
+            }
         }
     }
 }

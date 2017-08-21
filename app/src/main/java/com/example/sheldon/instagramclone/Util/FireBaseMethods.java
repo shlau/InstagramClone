@@ -1,5 +1,6 @@
 package com.example.sheldon.instagramclone.Util;
 
+import android.accounts.Account;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.sheldon.instagramclone.Home.HomeActivity;
 import com.example.sheldon.instagramclone.Login.RegisterActivity;
+import com.example.sheldon.instagramclone.Profile.AccountSettingsActivity;
 import com.example.sheldon.instagramclone.R;
 import com.example.sheldon.instagramclone.models.Photo;
 import com.example.sheldon.instagramclone.models.User;
@@ -255,11 +257,13 @@ public class FireBaseMethods {
         ref.child(mContext.getString(R.string.db_user_photos)).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(photoKey).setValue(photo);
         Log.d(TAG, "addPhotoToDb: added photos to database");
     }
-    public void uploadImage(String photoType, final String caption, int count, String imgURL) {
+    public void uploadImage(String photoType, final String caption, int count, String imgURL, Bitmap bm) {
         if(photoType.equals(mContext.getString(R.string.new_photo))) {
             String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
             StorageReference storageRef = mStorageRef.child(FIREBASE_IMAGE_STORAGE + "/" + uid + "/photo" + + (count + 1));
-            Bitmap bm = ImageManager.getBitMap(imgURL);
+            if(bm == null) {
+                bm = ImageManager.getBitMap(imgURL);
+            }
             byte[] bytes = ImageManager.getBytesFromBitMap(bm, IMAGE_QUALITY);
 
             UploadTask uploadTask = null;
@@ -289,7 +293,42 @@ public class FireBaseMethods {
         }
         else if(photoType.equals(mContext.getString(R.string.new_profile_photo))) {
 
+            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            StorageReference storageRef = mStorageRef.child(FIREBASE_IMAGE_STORAGE + "/" + uid + "/profile_photo");
+            if(bm == null) {
+                bm = ImageManager.getBitMap(imgURL);
+            }
+            byte[] bytes = ImageManager.getBytesFromBitMap(bm, IMAGE_QUALITY);
+
+            UploadTask uploadTask = null;
+            uploadTask = storageRef.putBytes(bytes);
+            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Uri firebaseUri = taskSnapshot.getDownloadUrl();
+                    addProfilePhoto(firebaseUri.toString());
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(mContext, "Failed to upload photo", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "onFailure: " + e.getMessage());
+                }
+            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                    double progress = (100 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                    if(progress - 15 > mProgress) {
+                        Toast.makeText(mContext, "Uploading photo " + progress + "%", Toast.LENGTH_SHORT).show();
+                        mProgress = progress;
+                    }
+                }
+            });
+            ((AccountSettingsActivity)mContext).setUpViewPager(((AccountSettingsActivity) mContext).adapter.getFragmentNumber(mContext.getString(R.string.edit_profile_fragment)));
         }
+    }
+    public void addProfilePhoto(String imgURL) {
+        ref.child(mContext.getString(R.string.db_account_settings)).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(mContext.getString(R.string.db_profile_photo)).setValue(imgURL);
     }
     public String getUserID() {
         return userID;

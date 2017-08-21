@@ -38,6 +38,9 @@ public class ShareActivity extends AppCompatActivity {
 
     }
 
+    public int getTask() {
+        return getIntent().getFlags();
+    }
     private void setUpViewPager() {
         SectionStateAdapter adapter = new SectionStateAdapter(getSupportFragmentManager());
         adapter.addFragment(new GalleryFragment(), "Gallery");
@@ -73,10 +76,15 @@ public class ShareActivity extends AppCompatActivity {
     private void setUpBottomNav() {
         BottomNavigationViewEx botNavView = (BottomNavigationViewEx) findViewById(R.id.bottom_nav_view_bar);
         BottomNavHelper.disableAnimation(botNavView);
-        BottomNavHelper.enableNavBar(this, botNavView);
+        BottomNavHelper.enableNavBar(this, this, botNavView);
         Menu menu = botNavView.getMenu();
         MenuItem item = menu.getItem(SHARE_ACTIVITY);
         item.setChecked(true);
 
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(0, 0);
     }
 }

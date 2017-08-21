@@ -2,6 +2,7 @@ package com.example.sheldon.instagramclone.Profile;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -20,6 +21,7 @@ import android.widget.RelativeLayout;
 import com.example.sheldon.instagramclone.Login.LoginActivity;
 import com.example.sheldon.instagramclone.R;
 import com.example.sheldon.instagramclone.Util.BottomNavHelper;
+import com.example.sheldon.instagramclone.Util.FireBaseMethods;
 import com.example.sheldon.instagramclone.Util.SectionStateAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
@@ -35,7 +37,7 @@ public class AccountSettingsActivity extends AppCompatActivity {
 
     private static final int PROFILE_ACTIVITY = 2;
     private Context mContext;
-    private SectionStateAdapter adapter;
+    public SectionStateAdapter adapter;
     private RelativeLayout mLayout;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,7 +73,7 @@ public class AccountSettingsActivity extends AppCompatActivity {
      * Display fragment at index in the viewpager
      * @param index the fragment index
      */
-    private void setUpViewPager(int index) {
+    public void setUpViewPager(int index) {
         // hide the previous layout so that only the new fragment is shown
         mLayout.setVisibility(View.GONE);
 
@@ -83,6 +85,20 @@ public class AccountSettingsActivity extends AppCompatActivity {
 
     private void getIncomingIntent() {
         Intent intent = getIntent();
+        FireBaseMethods fireBaseMethods = new FireBaseMethods(AccountSettingsActivity.this);
+        boolean hasImage = intent.hasExtra(getString(R.string.selected_image));
+        boolean hasBitmap = intent.hasExtra(getString(R.string.selected_bitmap));
+        boolean hasReturn = intent.hasExtra(getString(R.string.return_fragment));
+
+        if(hasReturn) {
+            if(hasImage) {
+                fireBaseMethods.uploadImage(getString(R.string.new_profile_photo), null, 0, intent.getStringExtra(getString(R.string.selected_image)), null);
+            }
+            if(hasBitmap) {
+                fireBaseMethods.uploadImage(getString(R.string.new_profile_photo), null, 0, null, (Bitmap)intent.getParcelableExtra(getString(R.string.selected_bitmap)));
+            }
+        }
+
         if(intent.hasExtra(getString(R.string.calling_activity))) {
             setUpViewPager(0);
         }
@@ -133,9 +149,15 @@ public class AccountSettingsActivity extends AppCompatActivity {
     private void setUpBottomNav() {
         BottomNavigationViewEx botNavView = (BottomNavigationViewEx) findViewById(R.id.bottom_nav_view_bar);
         BottomNavHelper.disableAnimation(botNavView);
-        BottomNavHelper.enableNavBar(this, botNavView);
+        BottomNavHelper.enableNavBar(this, this, botNavView);
         Menu menu = botNavView.getMenu();
         MenuItem item = menu.getItem(PROFILE_ACTIVITY);
         item.setCheckable(true);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(0, 0);
     }
 }
